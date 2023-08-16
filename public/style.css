@@ -198,7 +198,6 @@ form>div:first-child>label:first-child>input:focus {
   color: #ddd;
 }
 
-
 .list {
   margin: 0;
 }
@@ -243,12 +242,10 @@ td {
 
 tr>td:nth-child(1) {
   width: 50px;
-
 }
 
 tr>th:nth-child(1) {
   width: 50px;
-
 }
 
 tr>td:nth-child(2) {

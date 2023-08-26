@@ -2,15 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App;
+spl_autoload_register(function (string $classNamespace) {
+    $path = str_replace(['\\', 'App/'], ['/', ''], $classNamespace);
+    $path = "src/$path.php";
+    require_once($path);
+});
 
-require_once('/application/src/Utils/debug.php');
-require_once('/application/src/Controller.php');
+require_once("src/Utils/debug.php");
+$configuration = require_once("config/config.php");
 
+use App\Controller\AbstractController;
+use App\Controller\NoteController;
+use App\Request;
+use App\Exception\AppException;
+use App\Exception\ConfigurationException;
 
-const DEFAULT_ACTION = 'list';
+$request = new Request($_GET, $_POST, $_SERVER);
 
-$action = $_GET['action'] ?? DEFAULT_ACTION;
+try {
+    //$controller = new Controller($request);
+    //$controller->run();
 
-$controller = new Controller();
-$controller->run($action);
+    AbstractController::initConfiguration($configuration);
+    (new NoteController($request))->run();
+} catch (ConfigurationException $e) {
+    //mail('xxx@xxx.com', 'Errro', $e->getMessage());
+    echo '<h1>Wystąpił błąd w aplikacji</h1>';
+    echo 'Problem z applikacją, proszę spróbować za chwilę.';
+} catch (AppException $e) {
+    echo '<h1>Wystąpił błąd w aplikacji</h1>';
+    echo '<h3>' . $e->getMessage() . '</h3>';
+} catch (\Throwable $e) {
+    echo '<h1>Wystąpił błąd w aplikacji</h1>';
+    dump($e);
+}

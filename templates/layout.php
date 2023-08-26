@@ -27,7 +27,7 @@
         </div>
 
         <div class="footer">
-            <p>Notatki - projekt w kursie PHP</p>
+            <p>Notatki - projekt</p>
         </div>
     </div>
 </body>
